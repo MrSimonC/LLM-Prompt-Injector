@@ -4,6 +4,14 @@ A small Windows app that lives in your system tray and lets you paste saved snip
 
 Download: [Download](https://github.com/MrSimonC/LLM-Prompt-Injector/raw/refs/heads/master/Binary/FolderSnippets.exe) (Windows 64‑bit)
 
+## Screenshots
+
+<img width="522" height="279" alt="Screenshot 2025-08-29 140420" src="https://github.com/user-attachments/assets/5738899d-dc2a-46b0-b870-1f1567135d89" />
+
+<img width="800" height="480" alt="Screenshot 2025-08-29 140502" src="https://github.com/user-attachments/assets/020189a0-2859-422a-828f-1f54b706792e" />
+
+<img width="1046" height="259" alt="Screenshot 2025-08-29 140540" src="https://github.com/user-attachments/assets/78dd2f8d-b2e2-450c-bc7d-4af47305807f" />
+
 How it works
 - Press Ctrl+Alt+F to open the search box.
 - Type to find a snippet from your chosen folder of .txt/.md files.
@@ -18,10 +26,4 @@ Notes
 - Your clipboard is restored after each paste.
 - You can enable “Start on Windows login” from the tray menu.
 
-Icon
-- Place your PNG at `Assets/icon.png` and create the app icon with ImageMagick:
-  - Install: `winget install ImageMagick.ImageMagick`
-  - Convert: `magick Assets\icon.png -define icon:auto-resize=256,128,64,48,32,24,20,16 Assets\app.ico`
-- The app automatically uses `Assets/app.ico` for the tray and window icons.
-
-Simon thanks GPT5 on Codex CLI for this code. Well done OpenAI team.
+❤️ Made by Simon and GPT5 on Codex CLI for this code. Well done OpenAI team for such a great model!
