@@ -1,5 +1,6 @@
 using FolderSnippets.Services;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -33,43 +34,76 @@ namespace FolderSnippets
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
-            Width = 640;
-            Height = 420;
+            AutoScaleMode = AutoScaleMode.Dpi;
+            Font = new Font("Segoe UI", 9F);
+            ClientSize = new Size(720, 420);
 
-            var lblFolder = new Label { Text = "Folder:", Left = 12, Top = 16, AutoSize = true };
-            _txtFolder.Left = 80; _txtFolder.Top = 12; _txtFolder.Width = 440; _txtFolder.Text = _settings.FolderPath;
-            _btnBrowse.Text = "Browse..."; _btnBrowse.Left = 530; _btnBrowse.Top = 10; _btnBrowse.Click += (_, __) => BrowseFolder();
+            var root = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 3, Padding = new Padding(12) };
+            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
-            var lblExt = new Label { Text = "Extensions:", Left = 12, Top = 56, AutoSize = true };
-            _exts.Left = 80; _exts.Top = 52; _exts.Width = 200; _exts.Height = 80;
+            // Row 1: Folder selector
+            var rowFolder = new TableLayoutPanel { Dock = DockStyle.Top, ColumnCount = 3, AutoSize = true };            
+            rowFolder.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            rowFolder.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            rowFolder.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            var lblFolder = new Label { Text = "Folder:", AutoSize = true, Anchor = AnchorStyles.Left };
+            _txtFolder.Dock = DockStyle.Fill; _txtFolder.Margin = new Padding(8, 3, 8, 3); _txtFolder.Text = _settings.FolderPath;
+            _btnBrowse.Text = "Browse..."; _btnBrowse.AutoSize = true; _btnBrowse.Click += (_, __) => BrowseFolder();
+            rowFolder.Controls.Add(lblFolder, 0, 0);
+            rowFolder.Controls.Add(_txtFolder, 1, 0);
+            rowFolder.Controls.Add(_btnBrowse, 2, 0);
+            root.Controls.Add(rowFolder);
+
+            // Row 2: Main content split into two columns
+            var split = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1, Margin = new Padding(0, 12, 0, 0) };
+            split.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+            split.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+
+            var gbExt = new GroupBox { Text = "Extensions", Dock = DockStyle.Fill, Padding = new Padding(10) };
+            _exts.Dock = DockStyle.Fill; _exts.CheckOnClick = true;
             var known = new[] { ".txt", ".md", ".markdown" };
             foreach (var e in known)
                 _exts.Items.Add(e, _settings.AllowedExtensions.Contains(e, StringComparer.OrdinalIgnoreCase));
+            gbExt.Controls.Add(_exts);
+            split.Controls.Add(gbExt, 0, 0);
 
-            var lblMax = new Label { Text = "Max paste bytes:", Left = 300, Top = 56, AutoSize = true };
-            _maxBytes.Left = 420; _maxBytes.Top = 52; _maxBytes.Width = 200;
-            _maxBytes.Maximum = 10_000_000; _maxBytes.Minimum = 1_000; _maxBytes.Increment = 1_000;
-            _maxBytes.Value = _settings.MaxPasteBytes;
+            var right = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 5, Padding = new Padding(6) };
+            right.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            right.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
 
-            _chkStartOnLogin.Text = "Start on Windows login";
-            _chkStartOnLogin.Left = 80; _chkStartOnLogin.Top = 150; _chkStartOnLogin.Checked = _settings.StartWithWindows;
+            var lblMax = new Label { Text = "Max paste bytes:", AutoSize = true, Anchor = AnchorStyles.Left };
+            _maxBytes.Maximum = 10_000_000; _maxBytes.Minimum = 1_000; _maxBytes.Increment = 1_000; _maxBytes.Value = _settings.MaxPasteBytes; _maxBytes.Width = 160;
+            right.Controls.Add(lblMax, 0, 0);
+            right.Controls.Add(_maxBytes, 1, 0);
 
-            _chkIgnoreDot.Text = "Ignore dotfiles";
-            _chkIgnoreDot.Left = 80; _chkIgnoreDot.Top = 180; _chkIgnoreDot.Checked = _settings.IgnoreDotfiles;
+            _chkStartOnLogin.Text = "Start on Windows login"; _chkStartOnLogin.Checked = _settings.StartWithWindows; _chkStartOnLogin.AutoSize = true;
+            right.Controls.Add(_chkStartOnLogin, 1, 1);
 
-            var lblIgnore = new Label { Text = "Ignore filenames containing:", Left = 80, Top = 210, AutoSize = true };
-            _txtIgnoreSubstring.Left = 280; _txtIgnoreSubstring.Top = 206; _txtIgnoreSubstring.Width = 200; _txtIgnoreSubstring.Text = _settings.IgnoreSubstring;
+            _chkIgnoreDot.Text = "Ignore dotfiles"; _chkIgnoreDot.Checked = _settings.IgnoreDotfiles; _chkIgnoreDot.AutoSize = true;
+            right.Controls.Add(_chkIgnoreDot, 1, 2);
 
-            _btnSave.Text = "Save"; _btnSave.Left = 440; _btnSave.Top = 320; _btnSave.Click += (_, __) => SaveAndClose();
-            _btnCancel.Text = "Cancel"; _btnCancel.Left = 520; _btnCancel.Top = 320; _btnCancel.Click += (_, __) => Close();
+            var lblIgnore = new Label { Text = "Ignore filenames containing:", AutoSize = true, Anchor = AnchorStyles.Left };
+            _txtIgnoreSubstring.Text = _settings.IgnoreSubstring; _txtIgnoreSubstring.Width = 220;
+            right.Controls.Add(lblIgnore, 0, 3);
+            right.Controls.Add(_txtIgnoreSubstring, 1, 3);
 
-            Controls.AddRange(new Control[] {
-                lblFolder, _txtFolder, _btnBrowse,
-                lblExt, _exts,
-                lblMax, _maxBytes,
-                _chkStartOnLogin, _chkIgnoreDot, lblIgnore, _txtIgnoreSubstring,
-                _btnSave, _btnCancel
-            });
+            split.Controls.Add(right, 1, 0);
+            root.Controls.Add(split);
+
+            // Row 3: Buttons
+            var buttons = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.RightToLeft, Padding = new Padding(0, 12, 0, 0), AutoSize = true };
+            _btnSave.Text = "Save"; _btnSave.AutoSize = true; _btnSave.Click += (_, __) => SaveAndClose();
+            _btnCancel.Text = "Cancel"; _btnCancel.AutoSize = true; _btnCancel.Click += (_, __) => Close();
+            buttons.Controls.Add(_btnSave);
+            buttons.Controls.Add(_btnCancel);
+            root.Controls.Add(buttons);
+
+            AcceptButton = _btnSave;
+            CancelButton = _btnCancel;
+
+            Controls.Add(root);
         }
 
         private void BrowseFolder()

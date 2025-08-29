@@ -68,12 +68,14 @@ namespace FolderSnippets
                 _settings.Save();
             };
             var restartHotkeyItem = new ToolStripMenuItem("Restart Hotkey", null, (_, __) => RegisterHotkeyOrWarn());
+            var aboutItem = new ToolStripMenuItem("About...", null, (_, __) => ShowAbout());
             var exitItem = new ToolStripMenuItem("Exit", null, (_, __) => ExitThread());
 
             menu.Items.Add(openItem);
             menu.Items.Add(settingsItem);
             menu.Items.Add(startOnLoginItem);
             menu.Items.Add(restartHotkeyItem);
+            menu.Items.Add(aboutItem);
             menu.Items.Add(new ToolStripSeparator());
             menu.Items.Add(exitItem);
 
@@ -104,6 +106,12 @@ namespace FolderSnippets
         private void ShowSettings()
         {
             using var dlg = new SettingsForm(_settings, _indexService, _startup);
+            dlg.ShowDialog();
+        }
+
+        private void ShowAbout()
+        {
+            using var dlg = new AboutForm();
             dlg.ShowDialog();
         }
 
