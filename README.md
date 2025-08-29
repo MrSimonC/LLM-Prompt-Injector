@@ -1,23 +1,21 @@
 # FolderSnippets
 
-A Windows tray app that lets you quickly search your folder of text/markdown files, pick a snippet, and paste it into the active application. Pasting uses AutoHotkey.Interop to reliably send Ctrl+V.
+A small Windows app that lives in your system tray and lets you paste saved snippets into any program in a couple of keystrokes.
 
-## Requirements
-- Windows 10/11 (x64)
-- .NET 8 SDK
-- Visual Studio 2022 or `dotnet` CLI
+Download: [Download](https://github.com/MrSimonC/LLM-Prompt-Injector/raw/refs/heads/master/Binary/FolderSnippets.exe) (Windows 64‑bit)
 
-## Build
-- Visual Studio: open `FolderSnippets.sln`, build Release x64
-- CLI: `dotnet build -c Release`
+How it works
+- Press Ctrl+Alt+F to open the search box.
+- Type to find a snippet from your chosen folder of .txt/.md files.
+- Press Enter to paste it into the app you’re using.
 
-## Run
-- Launch the app; it lives in the system tray
-- Global hotkey: `Ctrl+Alt+F`
-- Pick a snippet; it is copied to the clipboard and pasted via AutoHotkey.Interop (Ctrl+V)
+Getting started
+- Run FolderSnippets.exe.
+- Choose the folder that holds your snippets.
+- Use Ctrl+Alt+F whenever you want to paste one.
 
-## Notes
-- Uses the `AutoHotkey.Interop` NuGet package, which self-deploys the required AutoHotkey DLL
-- Clipboard is restored after paste
+Notes
+- Your clipboard is restored after each paste.
+- You can enable “Start on Windows login” from the tray menu.
 
 Simon thanks GPT5 on Codex CLI for this code. Well done OpenAI team.
