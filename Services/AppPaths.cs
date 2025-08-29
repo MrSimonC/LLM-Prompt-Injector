@@ -10,5 +10,6 @@ namespace FolderSnippets.Services
         public static string AppDataDir => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FolderSnippets");
         public static string ConfigDir => AppDataDir;
         public static string SettingsPath => Path.Combine(ConfigDir, "settings.json");
+        public static string IconPath => Path.Combine(AppContext.BaseDirectory, "app.ico");
     }
 }

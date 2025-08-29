@@ -35,7 +35,7 @@ namespace FolderSnippets
 
             _tray = new NotifyIcon
             {
-                Icon = SystemIcons.Application,
+                Icon = UiResources.AppIcon,
                 Text = "FolderSnippets",
                 Visible = true,
                 ContextMenuStrip = BuildMenu()

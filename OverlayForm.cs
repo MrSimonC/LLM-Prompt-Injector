@@ -29,6 +29,7 @@ namespace FolderSnippets
             _index = index;
             _paste = paste;
 
+            Icon = UiResources.AppIcon;
             FormBorderStyle = FormBorderStyle.None;
             ShowInTaskbar = false;
             TopMost = true;

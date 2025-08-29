@@ -21,7 +21,7 @@ namespace FolderSnippets
             var fvi = FileVersionInfo.GetVersionInfo(Services.AppPaths.ExePath);
             var ver = fvi.ProductVersion ?? fvi.FileVersion ?? "Unknown";
 
-            var icon = Icon.ExtractAssociatedIcon(Services.AppPaths.ExePath) ?? SystemIcons.Application;
+            var icon = Services.UiResources.AppIcon;
             var picture = new PictureBox
             {
                 Image = icon.ToBitmap(),
@@ -49,7 +49,7 @@ namespace FolderSnippets
             {
                 AutoSize = true,
                 ForeColor = SystemColors.GrayText,
-                Text = "Simon thanks GPT5 on Codex CLI for this code. Well done OpenAI team."
+                Text = "Made by Simon and GPT5 on OpenAI Codex CLI."
             };
 
             var link = new LinkLabel

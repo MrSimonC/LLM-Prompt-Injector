@@ -18,4 +18,10 @@ Notes
 - Your clipboard is restored after each paste.
 - You can enable “Start on Windows login” from the tray menu.
 
+Icon
+- Place your PNG at `Assets/icon.png` and create the app icon with ImageMagick:
+  - Install: `winget install ImageMagick.ImageMagick`
+  - Convert: `magick Assets\icon.png -define icon:auto-resize=256,128,64,48,32,24,20,16 Assets\app.ico`
+- The app automatically uses `Assets/app.ico` for the tray and window icons.
+
 Simon thanks GPT5 on Codex CLI for this code. Well done OpenAI team.

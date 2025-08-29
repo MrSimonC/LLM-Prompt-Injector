@@ -9,7 +9,7 @@
     <AssemblyName>FolderSnippets</AssemblyName>
     <RootNamespace>FolderSnippets</RootNamespace>
     <Platforms>x64</Platforms>
-    <ApplicationIcon />
+    <ApplicationIcon Condition="Exists('Assets\\app.ico')">Assets\app.ico</ApplicationIcon>
     <VersionPrefix>0.1</VersionPrefix>
     <Version>0.1.0</Version>
     <FileVersion>0.1.0.0</FileVersion>
@@ -26,6 +26,10 @@
 
   <ItemGroup>
     <PackageReference Include="AutoHotkey.Interop" Version="1.0.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Assets\\app.ico" CopyToOutputDirectory="PreserveNewest" Condition="Exists('Assets\\app.ico')" />
   </ItemGroup>
 
   <Target Name="CopyVersionedExe" AfterTargets="Build">
