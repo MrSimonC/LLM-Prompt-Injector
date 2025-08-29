@@ -1,5 +1,7 @@
 # FolderSnippets
 
+<img width="750" height="500" alt="banner" src="https://github.com/user-attachments/assets/b2bb296c-15c1-4d10-a09c-2939f2da1c5d" />
+
 A small Windows app that lives in your system tray and lets you paste saved snippets into any program in a couple of keystrokes.
 
 Download: [Download](https://github.com/MrSimonC/LLM-Prompt-Injector/raw/refs/heads/master/Binary/FolderSnippets.exe) (Windows 64‑bit)
