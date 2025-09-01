@@ -54,18 +54,23 @@ dwBytes);
                     EnsureClipboardText(text, TimeSpan.FromMilliseconds(1400));
 
                 BringToForeground(targetWindow);
-                Thread.Sleep(50); // brief pause for focus change
+                Thread.Sleep(60);
 
                 AutoHotkeyService.SendCtrlV();
-                Thread.Sleep(100); // allow paste to complete
+                Thread.Sleep(120);
             }
-            finally
-            {
-                RestoreClipboard(prior, TimeSpan.FromMilliseconds(2000));
-            }
+            finally { }
 
             try
             {
+                var restoreThread = new System.Threading.Thread(() =>
+                {
+                    try { RestoreClipboard(prior, TimeSpan.FromMilliseconds(2000)); } catch { }
+                });
+                restoreThread.IsBackground = true;
+                restoreThread.SetApartmentState(System.Threading.ApartmentState.STA);
+                restoreThread.Start();
+
                 overlay.TopMost = true;
                 overlay.Show();
                 overlay.Activate();
