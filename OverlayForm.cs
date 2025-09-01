@@ -224,7 +224,7 @@ namespace FolderSnippets
             {
                 // hide briefly to avoid keystrokes landing here
                 Hide();
-                await Task.Delay(1000); // wait a moment to ensure previous window is ready
+                await Task.Delay(100); // short pause to ensure previous window is ready
                 _paste.PasteIntoWindowThenReturn(_previousWindow, text, this);
                 UpdateStatus($"Inserted {item.Name} ({text.Length:N0} chars)");
             }

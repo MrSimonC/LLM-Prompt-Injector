@@ -54,10 +54,10 @@ dwBytes);
                     EnsureClipboardText(text, TimeSpan.FromMilliseconds(1400));
 
                 BringToForeground(targetWindow);
-                Thread.Sleep(100);
+                Thread.Sleep(50); // brief pause for focus change
 
                 AutoHotkeyService.SendCtrlV();
-                Thread.Sleep(450);
+                Thread.Sleep(100); // allow paste to complete
             }
             finally
             {
