@@ -85,9 +85,30 @@ dwBytes);
             var sw = System.Diagnostics.Stopwatch.StartNew();
             while (sw.Elapsed < timeout)
             {
-                try { return Clipboard.GetDataObject(); } catch { Thread.Sleep(15); }
+                try
+                {
+                    var data = Clipboard.GetDataObject();
+                    if (data != null) return CloneDataObject(data);
+                }
+                catch { Thread.Sleep(15); }
             }
-            try { return Clipboard.GetDataObject(); } catch { return null; }
+            try
+            {
+                var data = Clipboard.GetDataObject();
+                return data != null ? CloneDataObject(data) : null;
+            }
+            catch { return null; }
+        }
+
+        private static IDataObject CloneDataObject(IDataObject source)
+        {
+            var clone = new DataObject();
+            foreach (var format in source.GetFormats())
+            {
+                try { clone.SetData(format, source.GetData(format)); }
+                catch { }
+            }
+            return clone;
         }
 
         private static bool TryOpenClipboard(TimeSpan timeout)
@@ -181,15 +202,16 @@ dwBytes);
         private static void RestoreClipboard(IDataObject? prior, TimeSpan timeout)
         {
             var sw = System.Diagnostics.Stopwatch.StartNew();
-            if (prior == null) return;
-
             Thread.Sleep(160);
 
             while (true)
             {
                 try
                 {
-                    Clipboard.SetDataObject(prior, true);
+                    if (prior != null)
+                        Clipboard.SetDataObject(prior, true);
+                    else
+                        Clipboard.Clear();
                     return;
                 }
                 catch { }
