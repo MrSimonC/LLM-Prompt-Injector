@@ -12,6 +12,7 @@ namespace FolderSnippets.Services
         public int MaxPasteBytes { get; set; } = 1_048_576; // 1 MB
         public string IgnoreSubstring { get; set; } = "_draft";
         public bool IgnoreDotfiles { get; set; } = true;
+        public bool KeepOpenAfterInsertion { get; set; } = false;
 
         public static AppSettings LoadOrCreate()
         {

@@ -19,6 +19,7 @@ namespace FolderSnippets
         private readonly NumericUpDown _maxBytes = new();
         private readonly CheckBox _chkStartOnLogin = new();
         private readonly CheckBox _chkIgnoreDot = new();
+        private readonly CheckBox _chkKeepOpen = new();
         private readonly TextBox _txtIgnoreSubstring = new();
         private readonly Button _btnSave = new();
         private readonly Button _btnCancel = new();
@@ -69,7 +70,7 @@ namespace FolderSnippets
             gbExt.Controls.Add(_exts);
             split.Controls.Add(gbExt, 0, 0);
 
-            var right = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 5, Padding = new Padding(6) };
+            var right = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 6, Padding = new Padding(6) };
             right.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             right.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
 
@@ -84,10 +85,13 @@ namespace FolderSnippets
             _chkIgnoreDot.Text = "Ignore dotfiles"; _chkIgnoreDot.Checked = _settings.IgnoreDotfiles; _chkIgnoreDot.AutoSize = true;
             right.Controls.Add(_chkIgnoreDot, 1, 2);
 
+            _chkKeepOpen.Text = "Keep open after insertion"; _chkKeepOpen.Checked = _settings.KeepOpenAfterInsertion; _chkKeepOpen.AutoSize = true;
+            right.Controls.Add(_chkKeepOpen, 1, 3);
+
             var lblIgnore = new Label { Text = "Ignore filenames containing:", AutoSize = true, Anchor = AnchorStyles.Left };
             _txtIgnoreSubstring.Text = _settings.IgnoreSubstring; _txtIgnoreSubstring.Width = 220;
-            right.Controls.Add(lblIgnore, 0, 3);
-            right.Controls.Add(_txtIgnoreSubstring, 1, 3);
+            right.Controls.Add(lblIgnore, 0, 4);
+            right.Controls.Add(_txtIgnoreSubstring, 1, 4);
 
             split.Controls.Add(right, 1, 0);
             root.Controls.Add(split);
@@ -125,6 +129,7 @@ namespace FolderSnippets
             _settings.MaxPasteBytes = (int)_maxBytes.Value;
             _settings.StartWithWindows = _chkStartOnLogin.Checked;
             _settings.IgnoreDotfiles = _chkIgnoreDot.Checked;
+            _settings.KeepOpenAfterInsertion = _chkKeepOpen.Checked;
             _settings.AllowedExtensions = _exts.CheckedItems.Cast<string>().ToArray();
             _settings.IgnoreSubstring = _txtIgnoreSubstring.Text.Trim();
 
