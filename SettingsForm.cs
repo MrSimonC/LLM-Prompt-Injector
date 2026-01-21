@@ -20,6 +20,7 @@ namespace FolderSnippets
         private readonly CheckBox _chkStartOnLogin = new();
         private readonly CheckBox _chkIgnoreDot = new();
         private readonly CheckBox _chkKeepOpen = new();
+        private readonly ToolTip _tooltip = new();
         private readonly TextBox _txtIgnoreSubstring = new();
         private readonly Button _btnSave = new();
         private readonly Button _btnCancel = new();
@@ -86,6 +87,7 @@ namespace FolderSnippets
             right.Controls.Add(_chkIgnoreDot, 1, 2);
 
             _chkKeepOpen.Text = "Keep open after insertion"; _chkKeepOpen.Checked = _settings.KeepOpenAfterInsertion; _chkKeepOpen.AutoSize = true;
+            _tooltip.SetToolTip(_chkKeepOpen, "When checked, the dialog will reappear after pasting a snippet. When unchecked (default), the dialog stays hidden.");
             right.Controls.Add(_chkKeepOpen, 1, 3);
 
             var lblIgnore = new Label { Text = "Ignore filenames containing:", AutoSize = true, Anchor = AnchorStyles.Left };

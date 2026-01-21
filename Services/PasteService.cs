@@ -39,7 +39,7 @@ dwBytes);
 
         public IntPtr CaptureCurrentForegroundWindow() => GetForegroundWindow();
 
-        public void PasteIntoWindowThenReturn(IntPtr targetWindow, string text, Form overlay)
+        public void PasteIntoWindowThenReturn(IntPtr targetWindow, string text, Form overlay, bool keepOpen)
         {
             if (targetWindow == IntPtr.Zero) return;
 
@@ -71,9 +71,12 @@ dwBytes);
                 restoreThread.SetApartmentState(System.Threading.ApartmentState.STA);
                 restoreThread.Start();
 
-                overlay.TopMost = true;
-                overlay.Show();
-                overlay.Activate();
+                if (keepOpen)
+                {
+                    overlay.TopMost = true;
+                    overlay.Show();
+                    overlay.Activate();
+                }
             }
             catch { }
         }
