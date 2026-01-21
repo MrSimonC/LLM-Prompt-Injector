@@ -27,12 +27,12 @@ jobs:
       run: dotnet build --configuration Release --no-restore
       
     - name: Publish
-      run: dotnet publish --configuration Release --no-build --runtime win-x64 --output ./publish
+      run: dotnet publish --configuration Release --no-build --runtime win-x64 --self-contained --output ./publish
       
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: FolderSnippets-Windows
-        path: ./publish/*.exe
+        path: ./publish/FolderSnippets.exe
         retention-days: 1
         overwrite: true
