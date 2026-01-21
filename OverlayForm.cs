@@ -227,7 +227,7 @@ namespace FolderSnippets
                     Hide();
                 }
                 await Task.Delay(50);
-                _paste.PasteIntoWindowThenReturn(_previousWindow, text, this);
+                _paste.PasteIntoWindowThenReturn(_previousWindow, text, this, _settings.KeepOpenAfterInsertion);
                 UpdateStatus($"Inserted {item.Name} ({text.Length:N0} chars)");
             }
             catch (Exception ex)
